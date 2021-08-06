@@ -1,0 +1,11 @@
+.mode {
+    position: relative;
+    left: 20%;
+    margin: 40px;
+    padding: 10px;
+    border-radius: 4%;
+    border: 1px solid gray;
+    background-color: rgb(108, 218, 35);
+    color: white;
+    font-weight: bold;
+}

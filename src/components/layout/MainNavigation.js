@@ -1,7 +1,17 @@
 import style from './MainNavigation.module.css';
-import { NavLink } from 'react-router-dom';
-
+import { NavLink, useHistory } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../../store/auth.context';
 const MainNavigation = () => {
+
+    const authCtx = useContext(AuthContext);
+    const history = useHistory(); 
+
+    const handleLogout = (e) => {
+        authCtx.logout();
+        history.replace('/login');
+    }
+
     return (
         <header className={style.header}>
             <div className={style.logo}>  Great Quotes </div>
@@ -16,6 +26,11 @@ const MainNavigation = () => {
                         <NavLink activeClassName={style.active} to='/new-quote'>
                             New Quote
                         </NavLink>
+                    </li>
+                    <li>
+                        <button onClick={handleLogout} className='ui youtube button'>
+                            Logout
+                        </button>
                     </li>
                 </ul>
             </nav>

@@ -10,12 +10,11 @@ const SingleQuote = ({ allQuotes }) => {
 
     const routeMatch = useRouteMatch();
 
-
+    console.log(allQuotes.map(el => el.id))
 
     const params = useParams();
-
-    const quote = allQuotes.find(el => el.id === +params.quoteId);
-
+    const quote = allQuotes.find(el => el.id === params.quoteId);
+    console.log(quote);
     if (!quote) {
         return <p>Not Found</p>
     }

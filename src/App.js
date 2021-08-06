@@ -1,41 +1,54 @@
-import { Route, NavLink, Switch, Redirect, useRouteMatch } from 'react-router-dom'
-
+import { Route, Switch, Redirect, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 import AllQuotes from './pages/AllQuotes';
 import SingleQuote from './pages/SingleQuote';
 import NewQuote from './pages/NewQuote';
-import Layout from './components/layout/Layout';
 import NotFound from './pages/NotFound';
+import AuthPage from './pages/AuthPage';
 
-const ALL_QUOTES = [{
-  id: 1, author: 'Somebody', text: 'Some Text'
-},
-{
-  id: 2, author: 'Somebody 2 ', text: 'Some Text 2 '
-},
-{
-  id: 3, author: 'Somebody 3', text: 'Some Text 3'
-}];
+import Layout from './components/layout/Layout';
+import useHttp from './hooks/use-http';
+import { getAllQuotes } from './lib/api';
+
+
+
 
 function App() {
+  const { pathname } = useLocation();
 
+  const [quotes, setQuotes] = useState([]);
+
+  const { sendRequest, data: loadedQuotes } = useHttp(getAllQuotes, true)
+
+  useEffect(() => {
+    sendRequest();
+
+  }, [sendRequest, pathname]);
+
+  useEffect(() => {
+    setQuotes(loadedQuotes);
+
+  }, [loadedQuotes]);
 
 
   return (
     <Layout>
       <Switch>
+
+        <Route path='/login'>
+          <AuthPage />
+        </Route>
+
         <Route path="/" exact>
-
-          <Redirect to="/quotes">
-          </Redirect>
-
+          <Redirect to="/quotes" />
         </Route>
 
         <Route path="/quotes" exact>
-          <AllQuotes allQuotes={ALL_QUOTES} />
+          <AllQuotes allQuotes={!quotes ? [] : quotes} />
         </Route>
 
         <Route path="/quotes/:quoteId" >
-          <SingleQuote allQuotes={ALL_QUOTES} />
+          <SingleQuote allQuotes={!quotes ? [] : quotes} />
         </Route>
 
         <Route path="/new-quote" >

@@ -17,7 +17,7 @@ const sortQuotes = (quotes, ascending) => {
 const QuoteList = (props) => {
 
   const routeMatch = useRouteMatch();
-  console.log(routeMatch);
+
 
   const history = useHistory();
 
